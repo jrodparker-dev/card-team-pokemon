@@ -1,0 +1,61 @@
+:root {
+  color-scheme: dark;
+  font-family: Inter, system-ui, sans-serif;
+  background: #0f172a;
+  color: #e5eefc;
+}
+* { box-sizing: border-box; }
+body { margin: 0; background: linear-gradient(180deg, #08111f, #0f172a); }
+button, select, input, textarea { font: inherit; }
+button { cursor: pointer; }
+.app-shell { display: grid; grid-template-columns: 260px 1fr 320px; min-height: 100vh; gap: 16px; padding: 16px; }
+.panel { background: rgba(15, 23, 42, 0.86); border: 1px solid rgba(148, 163, 184, 0.2); border-radius: 18px; padding: 16px; box-shadow: 0 10px 30px rgba(0,0,0,0.25); }
+.side-panel, .drawer { position: sticky; top: 16px; height: calc(100vh - 32px); overflow: auto; }
+.main-content { display: grid; gap: 16px; }
+.hero { display: flex; justify-content: space-between; gap: 16px; align-items: start; }
+.hero h1 { margin: 0 0 8px; }
+.hero p { margin: 0 0 8px; }
+.hero-actions { display: grid; gap: 10px; min-width: 180px; }
+.hero-actions button, .drawer-toggle, .header-actions button { border: 0; border-radius: 12px; padding: 12px 14px; background: #2563eb; color: white; }
+.status-panel, .empty-state { font-size: 0.95rem; }
+.team-grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 16px; }
+.team-card { background: #111827; border: 1px solid rgba(255,255,255,0.08); border-radius: 18px; overflow: hidden; padding: 0; text-align: left; color: inherit; }
+.team-card-image { width: 100%; aspect-ratio: 0.72; object-fit: cover; display: block; background: #020617; }
+.team-card-footer { padding: 12px; display: grid; gap: 4px; }
+.muted { color: #93a4c4; }
+.history-list { display: grid; gap: 10px; }
+.history-card { background: #0b1220; border: 1px solid rgba(255,255,255,0.08); border-radius: 14px; padding: 10px; color: inherit; text-align: left; }
+.history-time { font-size: 0.78rem; color: #93a4c4; margin-bottom: 8px; }
+.history-sprites { display: grid; grid-template-columns: repeat(3, 1fr); gap: 4px; }
+.history-sprites img { width: 100%; height: 40px; object-fit: contain; background: rgba(255,255,255,0.04); border-radius: 8px; }
+.drawer-toggle { width: 100%; margin-bottom: 10px; }
+.drawer-content { display: grid; gap: 12px; }
+.candidate-list { display: grid; gap: 10px; }
+.candidate-row { display: grid; grid-template-columns: 54px 1fr; gap: 10px; align-items: center; background: #0b1220; border-radius: 12px; padding: 8px; }
+.candidate-row img { width: 54px; height: 74px; object-fit: cover; border-radius: 8px; }
+.candidate-name { font-weight: 700; }
+.candidate-meta { font-size: 0.84rem; color: #93a4c4; }
+.export-panel textarea { width: 100%; background: #020617; color: #e5eefc; border: 1px solid rgba(255,255,255,0.1); border-radius: 14px; padding: 12px; }
+.modal-backdrop { position: fixed; inset: 0; background: rgba(0,0,0,0.66); display: grid; place-items: center; padding: 20px; }
+.modal { width: min(1000px, 100%); background: #0f172a; border: 1px solid rgba(255,255,255,0.12); border-radius: 22px; padding: 20px; max-height: 92vh; overflow: auto; }
+.modal-header { display: flex; justify-content: space-between; gap: 12px; align-items: start; margin-bottom: 16px; }
+.header-actions { display: flex; gap: 10px; }
+.modal-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 16px; }
+.editor-section { background: #0b1220; border-radius: 16px; padding: 14px; display: grid; gap: 10px; }
+.editor-section h3 { margin: 0; }
+.editor-section select, .editor-section input { width: 100%; background: #020617; color: #e5eefc; border: 1px solid rgba(255,255,255,0.12); border-radius: 10px; padding: 10px; }
+.checkbox { display: flex; gap: 10px; align-items: center; }
+.checkbox input { width: auto; }
+.stat-grid { display: grid; gap: 8px; }
+.stat-row { display: grid; grid-template-columns: 40px 1fr 1fr; gap: 8px; align-items: center; }
+@media (max-width: 1200px) {
+  .app-shell { grid-template-columns: 220px 1fr; }
+  .drawer { grid-column: 1 / -1; height: auto; position: static; }
+}
+@media (max-width: 900px) {
+  .app-shell { grid-template-columns: 1fr; }
+  .side-panel { height: auto; position: static; }
+  .hero { flex-direction: column; }
+  .team-grid { grid-template-columns: 1fr; }
+  .modal-grid { grid-template-columns: 1fr; }
+}

@@ -6,19 +6,17 @@ const STATS = [['hp','HP'],['atk','Atk'],['def','Def'],['spa','SpA'],['spd','SpD
 
 export default function TeamBuilderModal({mon, battleData, onClose, onChange, onHack}) {
   const moveOptions = useMemo(() => {
-    const preferredIds = mon.learnset?.length ? mon.learnset : Object.keys(battleData.moves || {});
-    const overrideIds = mon.hackOverrides?.moves || [];
-    return [...new Set([...preferredIds, ...overrideIds])]
+    const preferredIds = (mon.learnset?.length ? mon.learnset : Object.keys(battleData.moves || {}));
+    return preferredIds
       .map((id) => ({id, label: battleData.moves?.[id]?.name || id}))
       .filter((move) => move.label)
       .sort((a, b) => a.label.localeCompare(b.label));
-  }, [mon.learnset, mon.hackOverrides, battleData.moves]);
+  }, [mon.learnset, battleData.moves]);
   const itemOptions = useMemo(() => Object.entries(battleData.items || {}).map(([id, item]) => ({id, label: item.name || id})).sort((a, b) => a.label.localeCompare(b.label)), [battleData.items]);
   const abilityOptions = useMemo(() => {
     const base = mon.abilities?.length ? mon.abilities : Object.values(battleData.abilities || {}).map((ability) => ability?.name).filter(Boolean);
-    const overrides = mon.hackOverrides?.abilities || [];
-    return [...new Set([...base, ...overrides])].sort((a, b) => a.localeCompare(b));
-  }, [mon.abilities, mon.hackOverrides, battleData.abilities]);
+    return [...new Set(base)].sort((a, b) => a.localeCompare(b));
+  }, [mon.abilities, battleData.abilities]);
 
   const updateMove = (idx, value) => {
     const next = [...(mon.moves || [])];
@@ -35,7 +33,7 @@ export default function TeamBuilderModal({mon, battleData, onClose, onChange, on
             <div className="muted">{(mon.types || []).join(' / ')} · BST {mon.bst}</div>
           </div>
           <div className="header-actions">
-            <button onClick={onHack}>{mon.hackState?.active ? 'Undo Hack' : 'Hack'}</button>
+            <button onClick={onHack}>Hack</button>
             <button onClick={onClose}>Close</button>
           </div>
         </div>

@@ -6,7 +6,6 @@ import TeamBuilderModal from './components/TeamBuilderModal.jsx';
 import {loadBattleData} from './lib/dataLoader.js';
 import {generateTeam} from './lib/teamGenerator.js';
 import {hackSet} from './lib/hackBuilder.js';
-import {fetchRandomCards} from './lib/cardSource.js';
 import {exportTeam} from './lib/exportShowdown.js';
 import {loadHistory, saveHistory} from './lib/storage.js';
 
@@ -44,7 +43,8 @@ export default function App() {
     setStatus('Fetching random PkmnCards page...');
     try {
       const seed = Math.floor(Math.random() * 1000000);
-      const json = await fetchRandomCards(seed);
+      const res = await fetch(`http://localhost:8787/api/random-page?display=full&seed=${seed}`);
+      const json = await res.json();
       const result = generateTeam(json.cards || [], battleData);
       const editable = result.team.map(defaultEditable);
       setTeam(editable);
@@ -65,39 +65,7 @@ export default function App() {
   }
 
   function handleHack(index) {
-    const mon = team[index];
-    if (!mon) return;
-
-    if (mon.hackState?.active) {
-      updateMon(index, {
-        ...mon.hackState.original,
-        hackState: {active: false, original: null},
-      });
-      return;
-    }
-
-    const hacked = hackSet(mon, battleData);
-    updateMon(index, {
-      ...hacked,
-      hackState: {
-        active: true,
-        original: {
-          moves: mon.moves,
-          item: mon.item,
-          ability: mon.ability,
-          level: mon.level,
-          shiny: mon.shiny,
-          teraType: mon.teraType,
-          nature: mon.nature,
-          evs: mon.evs,
-          ivs: mon.ivs,
-        },
-      },
-      hackOverrides: {
-        moves: hacked.moves,
-        abilities: hacked.ability ? [hacked.ability] : [],
-      },
-    });
+    updateMon(index, hackSet(team[index], battleData));
   }
 
   function copyExport() {
